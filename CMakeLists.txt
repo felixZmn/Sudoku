@@ -3,4 +3,4 @@ project(Sudoku C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Sudoku main.c)
+add_executable(Sudoku stack/stack.h stack/stack.c main.c point.h)
