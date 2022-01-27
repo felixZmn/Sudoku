@@ -102,20 +102,20 @@ point getNewRandomPoint(){
 /*
  * fill game board with random (correct) values
  */
-void fillField(){
+void fillGameBoard(){
     myStack_t* stack;
     stack = StackNew(sizeof(point), 81 );
     int counter = 0; // currently found numbers
-    int back = 0; //backtracking indicator
+    int back = 2; //backtracking indicator
     int number = 1; // number to check
     point p;
 
     while(counter < 81){
-        if(!back){
+        do{
             p = getNewRandomPoint();
-            number = 1;
-        }
+        } while(0 != gameBoard[p.x][p.y]);
 
+        number = 1;
         int isValidNumber = 0;
         while (number < 10){
             if(isValueValid(p, number)){
@@ -125,16 +125,19 @@ void fillField(){
             number++;
         }
 
+
         if(isValidNumber){
-            back = 0;
-            saveValue(p.x, p.y, number);
+            back = 1;
+            gameBoard[p.x][p.y]= number;
             Push(stack, &p);
             counter++;
         } else {
-            Pop(stack, &p);
-            number = removeValue(p.x, p.y)+1;
-            back = 1;
-            counter--;
+            back = back * 4;
+            for (int i = 0; i < back && counter != 0; ++i) {
+                Pop(stack, &p);
+                removeValue(p.x, p.y)+1;
+                counter--;
+            }
         }
     }
 }
@@ -145,7 +148,7 @@ void fillField(){
 int main(int argc, char** argv) {
     srand(time(0));
     initGameBoard();
-    fillField();
+    fillGameBoard();
     printf("Bitte Namen eingeben: ");
     scanf("%255[^\n]", playerName);
     printField();
