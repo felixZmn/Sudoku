@@ -8,12 +8,11 @@
 #include "types.h"
 
 
-void setValue(int x, int y, int value);
-int removeValue(int x, int y);
-int getValue(int x, int y);
-void initGameBoard();
+void setSolutionValue(int x, int y, int value);
+int removeSolutionValue(int x, int y);
+int getSolutionValue(int x, int y);
 int checkSqare(point p, int v);
 int isValueValid(point p, int v);
-void generateSudoku();
+void generateSolution();
 
 #endif //SUDOKU_SUDOKU_H

@@ -10,4 +10,9 @@ typedef struct{
     int y;
 } point;
 
+typedef struct {
+    int value;
+    int generatedInput;
+} entry;
+
 #endif //SUDOKU_TYPES_H

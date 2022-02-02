@@ -7,7 +7,7 @@
 #include "types.h"
 #include "helpers.h"
 
-extern int sudoku[9][9];
+extern int solution[9][9];
 
 /**
  * save
@@ -15,8 +15,8 @@ extern int sudoku[9][9];
  * @param y y value of coordinate
  * @param value value to put in grid
  */
-void setValue(int x, int y, int value){
-    sudoku[x][y] = value;
+void setSolutionValue(int x, int y, int value){
+    solution[x][y] = value;
 }
 
 /**
@@ -25,25 +25,14 @@ void setValue(int x, int y, int value){
  * @param y y value of coordinate
  * @return deleted value
  */
-int removeValue(int x, int y){
-    int number = sudoku[x][y];
-    sudoku[x][y] = 0;
+int removeSolutionValue(int x, int y){
+    int number = solution[x][y];
+    solution[x][y] = 0;
     return number;
 }
 
-int getValue(int x, int y){
-    return sudoku[x][y];
-}
-
-/**
- * fill the game board with zeroes
- */
-void initGameBoard(){
-    for(int i = 0; i < 9; i++){
-        for(int j = 0; j < 9; j++){
-            setValue(i, j, 0);
-        }
-    }
+int getSolutionValue(int x, int y){
+    return solution[x][y];
 }
 
 int checkSqare(point p, int v){
@@ -52,7 +41,7 @@ int checkSqare(point p, int v){
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            if(getValue(i + offsetX,j+offsetY ) == v){
+            if(getSolutionValue(i + offsetX, j + offsetY) == v){
                 return 0;
             }
         }
@@ -61,7 +50,7 @@ int checkSqare(point p, int v){
 }
 
 /**
- * checks if a value can be assigned to a point without violating the sudoku rules
+ * checks if a value can be assigned to a point without violating the solution rules
  * These rules are:
  * a value has to be unique on a row, on a line and in the 3x3 square
  * @param p point to check
@@ -71,10 +60,10 @@ int checkSqare(point p, int v){
  */
 int isValueValid(point p, int v){
     for(int i = 0; i < 9; i++){
-        if(getValue(p.x, i) == v){
+        if(getSolutionValue(p.x, i) == v){
             return 0;
         }
-        if(getValue(i,p.y) == v){
+        if(getSolutionValue(i, p.y) == v){
             return 0;
         }
     }
@@ -82,9 +71,9 @@ int isValueValid(point p, int v){
 }
 
 /**
- * generates a complete filled sudoku
+ * generates a complete filled solution
  */
-void generateSudoku(){
+void generateSolution(){
     myStack_t* stack;
     stack = StackNew(sizeof(point), 81 );
     int counter = 0; // currently found numbers
@@ -92,12 +81,10 @@ void generateSudoku(){
     int number; // number to check
     point p;
 
-    initGameBoard();
-
     while(counter < 81){
         do{
-            p = getNewRandomPoint();
-        } while(0 != getValue(p.x, p.y));
+            p = getRandomPoint();
+        } while(0 != getSolutionValue(p.x, p.y));
 
         number = 1;
         int isValidNumber = 0;
@@ -111,14 +98,14 @@ void generateSudoku(){
 
         if(isValidNumber){
             back = 1;
-            setValue(p.x, p.y, number);
+            setSolutionValue(p.x, p.y, number);
             Push(stack, &p);
             counter++;
         } else {
             back = back * 4;
             for (int i = 0; i < back && counter != 0; ++i) {
                 Pop(stack, &p);
-                removeValue(p.x, p.y);
+                removeSolutionValue(p.x, p.y);
                 counter--;
             }
         }

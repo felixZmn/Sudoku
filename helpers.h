@@ -7,6 +7,6 @@
 
 #include "types.h"
 
-point getNewRandomPoint();
+point getRandomPoint();
 
 #endif //SUDOKU_HELPERS_H
