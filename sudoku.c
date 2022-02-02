@@ -74,8 +74,6 @@ int isValueValid(point p, int v){
         if(getValue(p.x, i) == v){
             return 0;
         }
-    }
-    for(int i = 0; i < 9; i++){
         if(getValue(i,p.y) == v){
             return 0;
         }
@@ -90,8 +88,8 @@ void generateSudoku(){
     myStack_t* stack;
     stack = StackNew(sizeof(point), 81 );
     int counter = 0; // currently found numbers
-    int back = 2; //backtracking indicator
-    int number = 1; // number to check
+    int back = 1; //backtracking indicator
+    int number; // number to check
     point p;
 
     initGameBoard();
@@ -120,7 +118,7 @@ void generateSudoku(){
             back = back * 4;
             for (int i = 0; i < back && counter != 0; ++i) {
                 Pop(stack, &p);
-                removeValue(p.x, p.y)+1;
+                removeValue(p.x, p.y);
                 counter--;
             }
         }
