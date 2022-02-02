@@ -63,7 +63,7 @@ int isValueValid(point p, int v){
         if(getSolutionValue(p.x, i) == v){
             return 0;
         }
-        if(getSolutionValue(i, p.y) == v){
+        if(getValue(i,p.y) == v){
             return 0;
         }
     }
@@ -105,7 +105,7 @@ void generateSolution(){
             back = back * 4;
             for (int i = 0; i < back && counter != 0; ++i) {
                 Pop(stack, &p);
-                removeSolutionValue(p.x, p.y);
+                removeValue(p.x, p.y);
                 counter--;
             }
         }
