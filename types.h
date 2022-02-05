@@ -5,7 +5,7 @@
 #ifndef SUDOKU_TYPES_H
 #define SUDOKU_TYPES_H
 
-typedef struct{
+typedef struct {
     int x;
     int y;
 } point;

@@ -15,7 +15,7 @@ extern int solution[9][9];
  * @param y y value of coordinate
  * @param value value to put in grid
  */
-void setSolutionValue(int x, int y, int value){
+void setSolutionValue(int x, int y, int value) {
     solution[x][y] = value;
 }
 
@@ -25,28 +25,14 @@ void setSolutionValue(int x, int y, int value){
  * @param y y value of coordinate
  * @return deleted value
  */
-int removeSolutionValue(int x, int y){
+int removeSolutionValue(int x, int y) {
     int number = solution[x][y];
     solution[x][y] = 0;
     return number;
 }
 
-int getSolutionValue(int x, int y){
+int getSolutionValue(int x, int y) {
     return solution[x][y];
-}
-
-int checkSqare(point p, int v){
-    int offsetX = p.x - p.x % 3;
-    int offsetY = p.y - p.y % 3;
-
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            if(getSolutionValue(i + offsetX, j + offsetY) == v){
-                return 0;
-            }
-        }
-    }
-    return 1;
 }
 
 /**
@@ -58,12 +44,12 @@ int checkSqare(point p, int v){
  * @return 0 if the value is forbidden <br>
  * 1 if the value can be assigned to the point without violating the rules
  */
-int isValueValid(point p, int v){
-    for(int i = 0; i < 9; i++){
-        if(getSolutionValue(p.x, i) == v){
+int isValueValid(point p, int v) {
+    for (int i = 0; i < 9; i++) {
+        if (getSolutionValue(p.x, i) == v) {
             return 0;
         }
-        if(getSolutionValue(i, p.y) == v){
+        if (getSolutionValue(i, p.y) == v) {
             return 0;
         }
     }
@@ -71,32 +57,52 @@ int isValueValid(point p, int v){
 }
 
 /**
+ * helper function for isValueValid(point p, int v)
+ * @param p point to check
+ * @param v value to check
+ * @return 0 if the input is not allowed, 1 if the value is allowed
+ */
+int checkSqare(point p, int v) {
+    int offsetX = p.x - p.x % 3;
+    int offsetY = p.y - p.y % 3;
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (getSolutionValue(i + offsetX, j + offsetY) == v) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+/**
  * generates a complete filled solution
  */
-void generateSolution(){
-    myStack_t* stack;
-    stack = StackNew(sizeof(point), 81 );
+void generateSolution() {
+    myStack_t *stack;
+    stack = StackNew(sizeof(point), 81);
     int counter = 0; // currently found numbers
     int back = 1; //backtracking indicator
     int number; // number to check
     point p;
 
-    while(counter < 81){
-        do{
+    while (counter < 81) {
+        do {
             p = getRandomPoint();
-        } while(0 != getSolutionValue(p.x, p.y));
+        } while (0 != getSolutionValue(p.x, p.y));
 
         number = 1;
         int isValidNumber = 0;
-        while (number < 10){
-            if(isValueValid(p, number)){
+        while (number < 10) {
+            if (isValueValid(p, number)) {
                 isValidNumber = 1;
                 break;
             }
             number++;
         }
 
-        if(isValidNumber){
+        if (isValidNumber) {
             back = 1;
             setSolutionValue(p.x, p.y, number);
             Push(stack, &p);

@@ -9,7 +9,7 @@
 /**
  * @return new random point
  */
-point getRandomPoint(){
+point getRandomPoint() {
     point p;
     int randomNumber = (rand() % 9);
     p.x = randomNumber;
