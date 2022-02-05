@@ -260,6 +260,6 @@ int printMenu() {
         printf("5 -> menu schliessen\n");
         printf("9 -> Spiel beenden\n");
         scanf(" %1d", &inputValue);
-    } while (!(inputValue > 0 && inputValue <= 4 || inputValue == 9));
+    } while (!(inputValue > 0 && inputValue <= 5 || inputValue == 9));
     return inputValue;
 }
